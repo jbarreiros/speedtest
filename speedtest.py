@@ -19,6 +19,13 @@ logging.basicConfig(
     ]
 )
 
+# Check if webhook URL is configured
+webhook_url = os.getenv('HA_WEBHOOK', '')
+if not webhook_url:
+    logging.error(
+        'HA_WEBHOOK environment variable is not set. Please set it in your .env file.')
+    sys.exit(1)
+
 
 def fetch_speedtest():
     logging.debug('Speedtest started...')
@@ -46,7 +53,7 @@ def __convert(raw_bytes):
 
 def send_to_ha(download, upload):
     requests.post(
-        os.getenv('HA_WEBHOOK', ''),
+        webhook_url,
         json={'download': download, 'upload': upload},
         timeout=10
     )

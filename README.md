@@ -93,19 +93,26 @@ mode: restart
 
 </details>
 
-## Podman
+## Docker
 
 Copy `.env.dist` to `.env`, and update `HA_WEBHOOK`.
 
-Use Podman (or Docker) to run the instructions in the `Dockerfile` and generate an image.
+```bash
+docker compose up -d --build
 
-<details><summary>Build Docker image and start container</summary>
+# or
+docker build --tag speedtest-app -f ./Dockerfile .
+docker run -d --name speedtest-app speedtest-app
+```
+
+## Podman
 
 ```bash
+podman-compose up -d
+
+#or
 podman build --tag speedtest-app -f ./Dockerfile
 podman run -d --name speedtest-app speedtest-app
 ```
-
-</details>
 
 Podman does not autostart containers on boot. Follow [this guide](https://linuxhandbook.com/autostart-podman-containers/) for setting up a `systemd` service.
